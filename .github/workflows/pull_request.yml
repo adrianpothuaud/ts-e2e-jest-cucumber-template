@@ -5,8 +5,8 @@ on:
     branches: [ "develop", "master" ]
 
 jobs:
-  setup:
-    name: ⚙️ Repository setup
+  code_analyzis_and_checks:
+    name: ⚙️ Analyze code and check some quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
       - name: Typescript code checks
         run: npm run tsc
       - name: Framework tests
@@ -24,7 +27,19 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
+      - name: Install Chrome
+        run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
       - name: Sample tests (Jest)
-        run: npm run tdd:samples
+        run: |
+          export WEB_BROWSER_HEADLESS=true
+          export WEB_BROWSER_LANGUAGE=english
+          export WEB_BROWSER_NAME=chrome
+          export WEB_BROWSER_VIEWPORT=mbp-13
+          export SELENIUM_HUB_HOST=
+          export SELENIUM_HUB_PORT=
+          npm run tdd:samples
       - name: Sample tests (Cucumber)
         run: npm run bdd:samples

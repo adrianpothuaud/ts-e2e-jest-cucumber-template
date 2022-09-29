@@ -12,6 +12,8 @@ export const getChromeOptions = ({ headless, language, viewport }: IBrowserTestC
       `--accept-lang=${acceptLang}`,
       `--default-country-code=${countryCode}`,
       `--lang=${lang}`,
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
       `--window-size=${getViewportWidthForViewportName(viewport)},${getViewportHeightForViewportName(viewport)}`
     )
   if (headless) options.addArguments('--headless')
