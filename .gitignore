@@ -1,0 +1,9 @@
+.DS_Store
+**/.DS_Store
+.editorconfig
+.env
+.idea
+.vscode
+coverage
+node_modules
+test-outputs/**/*.png
