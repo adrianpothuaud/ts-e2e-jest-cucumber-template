@@ -1,0 +1,30 @@
+name: "Pull Request Workflow"
+
+on:
+  pull_request:
+    branches: [ "develop", "master" ]
+
+jobs:
+  setup:
+    name: ⚙️ Repository setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Typescript code checks
+        run: npm run tsc
+      - name: Framework tests
+        run: npm run tdd:framework
+      - name: Codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
+      - name: Sample tests (Jest)
+        run: npm run tdd:samples
+      - name: Sample tests (Cucumber)
+        run: npm run bdd:samples
