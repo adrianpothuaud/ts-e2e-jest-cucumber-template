@@ -26,6 +26,11 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
+      - name: Install Chrome
+        run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
       - name: Sample tests (Jest)
         run: npm run tdd:samples
       - name: Sample tests (Cucumber)
